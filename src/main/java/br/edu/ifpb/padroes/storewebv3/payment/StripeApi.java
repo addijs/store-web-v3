@@ -3,6 +3,9 @@ package br.edu.ifpb.padroes.storewebv3.payment;
 import br.edu.ifpb.padroes.storewebv3.config.StoreConfigurationProperties;
 import br.edu.ifpb.padroes.storewebv3.domain.Order;
 import br.edu.ifpb.padroes.storewebv3.domain.Product;
+import br.edu.ifpb.padroes.storewebv3.service.EMediatorEvents;
+import br.edu.ifpb.padroes.storewebv3.service.Mediator;
+import br.edu.ifpb.padroes.storewebv3.service.OrderService;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
@@ -12,7 +15,7 @@ import com.stripe.param.SkuCreateParams;
 import org.springframework.stereotype.Component;
 
 @Component
-public class StripeApi {
+public class StripeApi implements Mediator {
 
     private final StoreConfigurationProperties storeConfigurationProperties;
 
@@ -47,5 +50,10 @@ public class StripeApi {
         return null;
     }
 
-
+    @Override
+    public void notify(OrderService service, EMediatorEvents event) {
+        if (event == EMediatorEvents.PROCESS_PAYMENT) {
+            createOrder(service.getOrder());
+        }
+    }
 }
