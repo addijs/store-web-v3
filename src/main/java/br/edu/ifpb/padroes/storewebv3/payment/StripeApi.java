@@ -53,6 +53,7 @@ public class StripeApi implements Mediator {
     @Override
     public void notify(OrderService service, EMediatorEvents event) {
         if (event == EMediatorEvents.PROCESS_PAYMENT) {
+//          System.out.println("Process Order");
             createOrder(service.getOrder());
         }
     }
