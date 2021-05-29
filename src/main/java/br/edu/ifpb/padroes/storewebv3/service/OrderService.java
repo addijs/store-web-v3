@@ -4,16 +4,15 @@ import br.edu.ifpb.padroes.storewebv3.domain.Order;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OrderService {
+public class OrderService extends MediatedService {
     private Order order;
-    private final Mediator paymentMediator;
 
     public OrderService(Mediator paymentMediator) {
-        this.paymentMediator = paymentMediator;
+        super(paymentMediator);
     }
 
     public void processPayment() {
-        paymentMediator.notify(this, EMediatorEvents.PROCESS_PAYMENT);
+        super.mediator.notify(this, EMediatorEvents.PROCESS_PAYMENT);
     }
 
     public void setOrder(Order order) {

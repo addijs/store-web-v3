@@ -5,6 +5,7 @@ import br.edu.ifpb.padroes.storewebv3.domain.Order;
 import br.edu.ifpb.padroes.storewebv3.domain.Product;
 import br.edu.ifpb.padroes.storewebv3.service.EMediatorEvents;
 import br.edu.ifpb.padroes.storewebv3.service.Mediator;
+import br.edu.ifpb.padroes.storewebv3.service.MediatedService;
 import br.edu.ifpb.padroes.storewebv3.service.OrderService;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
@@ -51,10 +52,10 @@ public class StripeApi implements Mediator {
     }
 
     @Override
-    public void notify(OrderService service, EMediatorEvents event) {
-        if (event == EMediatorEvents.PROCESS_PAYMENT) {
+    public void notify(MediatedService service, EMediatorEvents event) {
+        if (service instanceof OrderService &&  event == EMediatorEvents.PROCESS_PAYMENT) {
 //          System.out.println("Process Order");
-            createOrder(service.getOrder());
+            createOrder(((OrderService) service).getOrder());
         }
     }
 }
