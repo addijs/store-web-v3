@@ -17,6 +17,7 @@ public class OrderFacade {
     private ProductRepository productRepository;
 
     public void createOrder(Order order) {
+        order.setProcessed(true);
         orderService.setOrder(order);
         orderService.processPayment();
     }
