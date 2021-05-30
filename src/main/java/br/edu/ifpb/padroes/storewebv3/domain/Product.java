@@ -1,12 +1,14 @@
 package br.edu.ifpb.padroes.storewebv3.domain;
 
-public class Product {
+public abstract class Product {
 
     private Long id;
     private String sku;
     private Long price;
     private String title;
     private String description;
+
+    public abstract void accept(Visitor visitor);
 
     public Long getId() {
         return id;
